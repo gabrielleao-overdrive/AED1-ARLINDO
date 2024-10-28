@@ -1,0 +1,77 @@
+//#include <stdio.h>
+
+typedef struct {
+    int linha;
+    int coluna;
+    int bloco;
+    int valor;
+} membro;
+
+//verificar
+int verificacao(membro mat[9][9]) {
+    //matrizes para contabilizar os numeros ja selecionados nas dimensões do sudoku
+    int linhas[9][9] = {0};
+    int colunas[9][9] = {0};
+    int blocos[9][9] = {0};
+    
+
+    for(int i=0; i<9; i++) {
+        for (int j=0; j<9; j++) {
+            int valor = mat[i][j].valor - 1; //ajustar para a linguagem de 0 a 8
+            
+            if (valor<0 || valor>8) {
+                return 0;
+            } //valor fora do intervalo
+            
+            //obtem os indicador dos parametros
+            int linha = mat[i][j].linha;
+            int coluna = mat[i][j].coluna;
+            int bloco = mat[i][j].bloco;
+
+            //verifica numeros repetidos na linha coluna e bloco
+            if (linhas[linha][valor] || colunas[coluna][valor] || blocos[bloco][valor]){
+                return 0; //numero duplicado
+            }
+
+            //marca o numero na linha coluna e bloco
+            linhas[linha][valor] = 1;
+            colunas[coluna][valor] = 1;
+            blocos[bloco][valor] = 1;
+        }
+    }
+    
+    return 1; //resultado satisfatorio
+}
+
+
+int main() {
+    int n;
+    scanf("%d", &n); 
+    membro mat[9][9];
+    
+    for (int ins = 1; ins <= n; ins++) {
+     
+
+    //criar a matriz
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                int valor;
+                scanf("%d", &valor);
+
+                //cria os campos
+                mat[i][j].linha = i;
+                mat[i][j].coluna = j;
+                mat[i][j].bloco = (i / 3) * 3 + (j / 3); //3x3
+                mat[i][j].valor = valor;
+            }
+        }
+        printf("resultado: %d\n", ins);
+        if (verificacao(mat)){
+            printf("Sim\n");
+        }else{
+            printf("Nao\n");
+        }
+    }
+    
+    return 0;
+}
