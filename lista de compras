@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+
+int compare(const void *a, const void *b){
+ return strcmp(*(const char **)a, *(const char **)b);
+}
+
+int main() {
+int N, nitens = 100;
+char linha[1001];
+
+scanf("%d", &N);
+getchar();
+
+char **itens = malloc(N * sizeof(char *));  
+for(int i=0; i<N;i++){
+fgets(linha, sizeof(linha),stdin);
+linha[strcspn(linha, "\n")] = '\0'; 
+}
+        
+char *token = strtok(linha, "\n");
+
+while (token !=NULL){
+    itens[nitens] = malloc(strlen(token)+ 1);
+       strcpy(itens[nitens], token);
+        nitens++;
+    token = strtok(NULL, "\n");
+    }
+
+qsort(itens,nitens, sizeof(char *), compare);
+
+printf("%s", itens[0]);
+
+for(int j = 1; j < nitens; j++){
+ if(strcmp(itens[j], itens[j - 1])!=0){
+         printf("%s", itens[j]);
+           }
+}
+    return 0;
+}
