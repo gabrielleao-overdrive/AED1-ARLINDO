@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_AMIGOS 100
+
+int main() {
+    char lista_amigos[MAX_AMIGOS][21];
+    char nova_lista[MAX_AMIGOS][21];
+    char amigo_indicado[21];
+    char armazenar[1000];
+    int num_amigos,  num_novos_amigos = 0;
+    int i, j, k;
+
+    fgets(armazenar, sizeof(armazenar), stdin);
+    char *token = strtok(buffer, " \n");
+    while (token != NULL) {
+        strcpy(lista_amigos[num_amigos], token);
+        num_amigos++;
+        token = strtok(NULL, " \n");
+    }
+
+    // Lê a nova lista de amigos
+    fgets(armazenar, sizeof(armazenar), stdin);
+    token = strtok(buffer, " \n");
+    while (token != NULL) {
+        strcpy(nova_lista[num_novos_amigos], token);
+        num_novos_amigos++;
+        token = strtok(NULL, " \n");
+    }
+
+    fgets(amigo_indicado, sizeof(amigo_indicado), stdin);
+    amigo_indicado[strcspn(amigo_indicado, "\n")] = '\0';
+
+   if (strcmp(amigo_indicado, "nao") != 0) {
+       int posicao = -1;
+        for (i = 0; i < num_amigos; i++) {
+        if (strcmp(lista_amigos[i], amigo_indicado) == 0) {
+          posicao = i;
+         break;
+        }
+    }
+
+
+        if (posicao != -1) {
+            for (i = num_amigos - 1; i >= posicao; i--) {
+            strcpy(lista_amigos[i + num_novos_amigos], lista_amigos[i]);
+            }
+            for (i = 0; i < num_novos_amigos; i++) {
+          strcpy(lista_amigos[posicao + i], nova_lista[i]);
+            }
+     num_amigos += num_novos_amigos;
+        }
+    } else {
+        for (i = 0; i < num_novos_amigos; i++) {
+        strcpy(lista_amigos[num_amigos + i], nova_lista[i]);
+        }
+        num_amigos += num_novos_amigos;
+    }
+    for (i = 0; i < num_amigos; i++) {
+      printf("%s", lista_amigos[i]);
+      if (i < num_amigos - 1) {
+            printf(" ");
+        }
+    }
+    printf("\n");
+    return 0;
+}
