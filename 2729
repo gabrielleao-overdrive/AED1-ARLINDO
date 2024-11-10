@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_ITENS 1000
+#define MAX_LENGTH 21
+
+void remover(char **lista, int n) {
+    // Ordena a lista em ordem alfabética
+    qsort(lista, n, sizeof(char *), compare);
+
+int compare(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+int i, j = 0;
+  for (i = 1; i < n; i++) {
+     if (strcmp(lista[i], lista[j]) != 0) {
+       j++;
+    lista[j] = lista[i];
+    }
+  }
+    for (i = 0; i <= j; i++) {
+    printf("%s", lista[i]);
+    if (i < j) printf(" ");
+    }
+  printf("\n");
+}
+
+int main() {
+    int N;
+    
+    scanf("%d", &N);
+    getchar();
+
+    for (int i = 0; i < N; i++) {
+     char linha[10000];
+        if (fgets(linha, sizeof(linha), stdin) == NULL) break;
+        char *lista[MAX_ITENS];
+        int n = 0;
+        char *item = strtok(linha, " \n");
+
+  while (item != NULL && n < MAX_ITENS) {
+   lista[n] = malloc(MAX_LENGTH * sizeof(char));
+      if (lista[n] == NULL) {
+          fprintf(stderr, "Erro\n");
+         return 1;
+        }
+    strncpy(lista[n], item, MAX_LENGTH - 1);
+     lista[n][MAX_LENGTH - 1] = '\0';  //
+      n++;
+    item = strtok(NULL, " \n");
+        }
+        remover(lista, n);
+        
+        for (int j = 0; j < n; j++) {
+            free(lista[j])
+          }
+  }
+    return 0;
+  }
