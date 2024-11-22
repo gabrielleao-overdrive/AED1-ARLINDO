@@ -1,0 +1,148 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STR 20
+
+typedef struct alunos {
+
+char aluno[MAX_STR];
+struct alunos *seg;
+}alunos;
+
+alunos* create_node(char *aluno) {
+    alunos *new_node = (alunos *)malloc(sizeof(alunos));
+
+    if (new_node == NULL) {
+        printf("Erro ao alocar memória.\n");
+        exit(1);
+    }
+
+    strcpy(new_node->aluno, aluno);
+    new_node->seg = NULL;
+    return new_node;
+}
+
+void adicionar(alunos **head, char *aluno){
+alunos *new_node = create_node(aluno);
+if(*head == NULL){
+*head = new_node;
+   }else{
+    alunos *atual = *head;
+    while(atual->seg != NULL){
+        atual = atual->seg;
+    }
+    atual->seg = new_node;
+    }
+}
+
+void print(alunos *head){
+alunos *atual = head;
+int contador = 1;
+printf("Lista de alunos:\n");
+    while(atual != NULL){
+        printf("%d - %s\n", contador, atual->aluno);
+        atual = atual->seg;
+    contador++;
+    }
+printf("\n");
+}
+
+void liberar_lista(alunos *head) {
+    alunos *atual = head;
+
+    while (atual != NULL) {
+        alunos *temp = atual;
+        atual = atual->seg;
+        free(temp);
+    }
+}
+
+void dividir_lista(alunos *head, alunos **front, alunos **back) {
+    if (head == NULL || head->seg == NULL) {
+        *front = head;
+        *back = NULL;
+        return;
+    }
+
+    alunos *slow = head;
+    alunos *fast = head->seg; 
+
+    // Divide a lista em dois
+    while (fast != NULL && fast->seg != NULL) {
+        slow = slow->seg;
+        fast = fast->seg->seg;
+    }
+
+    *front = head;
+    *back = slow->seg;
+    slow->seg = NULL;
+}
+void merge_sort(alunos **head_ref) {
+    alunos *head = *head_ref;
+    if (head == NULL || head->seg == NULL) {
+        return; 
+    }
+
+    alunos *front = NULL;
+    alunos *back = NULL;
+
+    dividir_lista(head, &front, &back);
+    merge_sort(&front);
+    merge_sort(&back);
+
+    *head_ref = merge_listas(front, back);
+}
+
+
+void ganhador(alunos *head, int posicao){
+alunos *atual = head;
+int contador = 1;
+
+while (atual != NULL) {
+        if (contador == posicao) {
+            printf("\nO aluno sorteado é: %s\n", atual->aluno);
+            return;
+        }
+        atual = atual->seg;
+        contador++;
+    }
+    printf("Posição inválida!\n");
+}
+
+
+
+int main(){
+
+alunos *lista = NULL;
+int N, K;
+
+do{
+    printf("Digite quantos alunos há na sala:\n");
+        scanf("%d", &N);
+    getchar();
+}while(N<1 || N>100);
+
+for(int i=0;i<N;i++){
+   char aluno[MAX_STR];
+    printf("digite o nome do %d° aluno:", i+1);
+     fgets(aluno, MAX_STR, stdin);
+    aluno[strcspn(aluno, "\n")] = '\0';
+  adicionar(&lista, aluno);
+}
+print(lista);
+
+do{
+    printf("digite qual número do aluno que ganhou o sorteio:");
+    scanf("%d", &K);
+}while(K<1 || K>N);
+
+  merge_sort(&lista);
+
+ganhador(lista, K);
+
+liberar_lista(lista);
+
+return 0;
+}
