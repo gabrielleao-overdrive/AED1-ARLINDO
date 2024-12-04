@@ -25,7 +25,7 @@ int main() {
     int n = 100000;
     int *algo = (int *)malloc(n * sizeof(int));
 
-    gerarvetor(algo, n);
+    geravetor(algo, n);
 
     clock_t start = clock();
     insertionSort(algo, n);
