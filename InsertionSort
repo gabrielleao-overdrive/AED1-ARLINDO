@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+void geravetor(int *algo, int n) {
+    for (int i = 0; i < n; i++) {
+        algo[i] = rand();
+    }
+}
+
+void insertionSort(int *algo, int n) {
+    for (int i = 1; i < n; i++) {
+        int key = algo[i];
+        int j = i - 1;
+        while (j >= 0 && algo[j] > key) {
+            algo[j + 1] = algo[j];
+            j--;
+        }
+        algo[j + 1] = key;
+    }
+}
+
+int main() {
+    int n = 100000;
+    int *algo = (int *)malloc(n * sizeof(int));
+
+    generateRandomArray(algo, n);
+
+    clock_t start = clock();
+    insertionSort(algo, n);
+    clock_t end = clock();
+    printf("Tempo: %f segundos\n", (double)(end - start) / CLOCKS_PER_SEC);
+
+    free(algo);
+    return 0;
+}
