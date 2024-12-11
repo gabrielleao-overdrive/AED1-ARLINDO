@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void gerarvetor(int *algo, int n) {
+    for (int i = 0; i < n; i++) {
+        algo[i] = rand();
+    }
+}
+
+void troca(int* a, int* b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int partir(int algo[], int low, int high){
+int pivo = algo[high];
+int i = low - 1;
+for(int j = low; j < high; j++){
+    if(algo[j] < pivo){
+        i++;
+        troca(&algo[i], &algo[j]);
+    }
+}
+troca(&algo[i + 1], &algo[high]);
+}
+
+void quick(int algo[], int low, int high){
+if(low < high) {
+    int pi = partir(algo, low, high);
+
+    quick(algo, low, pi - 1);
+    quick(algo, low, pi + 1);
+}
+
+}
+
+int main() {
+ for (int tam = 0; tam <= 400000; tam += 20000){
+    int* algo = (int *)malloc(tam * sizeof(int));
+    srand(time(NULL));
+if(algo == NULL) printf("erro ao alocar memóia\n!");
+
+    gerarvetor(algo, tam);
+
+    clock_t start = clock();
+    quick(algo, 0, tam - 1);
+    clock_t end = clock();
+    printf("Tamanho: %d\nTempo: %f\n", tam, (double)(end - start) / CLOCKS_PER_SEC);
+
+    free(algo);
+}
+    return 0;
+}
