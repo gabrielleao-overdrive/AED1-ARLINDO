@@ -1,0 +1,85 @@
+//Leia 6 valores. Em seguida, mostre quantos destes valores digitados foram positivos. Na próxima linha, deve-se mostrar a média de todos os valores positivos digitados, com um dígito após o ponto decimal.
+
+//Entrada
+//A entrada contém 6 números que podem ser valores inteiros ou de ponto flutuante. Pelo menos um destes números será positivo.
+
+//Saída
+//O primeiro valor de saída é a quantidade de valores positivos. A próxima linha deve mostrar a média dos valores positivos digitados.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct cel{
+float valor;
+struct cel *seg;
+}cel;
+
+void insere(float y, cel *p){
+cel *novo;
+novo = malloc(sizeof(cel));
+if (novo == NULL) {
+        fprintf(stderr, "Erro de alocação de memória\n");
+        exit(EXIT_FAILURE);
+}
+novo->valor = y;
+novo->seg = NULL;
+while(p->seg != NULL){
+p = p->seg;
+}
+p->seg = novo;
+}
+
+void contaposi(cel *p){
+
+int x=0;
+p = p->seg;
+while(p != NULL){
+if(p->valor>0){
+    x++;
+}
+p = p->seg;
+}
+printf("o número de positivos é %d\n", x);
+}
+
+void media(cel *p){
+
+float total = 0, aux = 0;
+p = p->seg;
+
+while(p != NULL){
+    if(p->valor > 0){
+total += p->valor;
+aux++;
+}
+p = p->seg;
+}
+printf("a média é %f", total/aux);
+}
+
+int main(){
+
+cel *p = malloc(sizeof(cel));
+ if (p == NULL) {
+        fprintf(stderr, "Erro de alocação de memória\n");
+        return EXIT_FAILURE;
+    }
+p->valor = 0;
+p->seg = NULL;
+float n=0;
+for(int i=0;i<6;i++){
+printf("digite o %d número:\n", i+1);
+scanf("%f", &n);
+insere(n, p);
+}
+contaposi(p);
+media(p);
+
+  cel *temp;
+    while (p != NULL) {
+        temp = p;
+        p = p->seg;
+        free(temp);
+    }
+return 0;
+}
