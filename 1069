@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CHAR 1000
+
+typedef struct caso{
+char monte [MAX_CHAR];
+struct caso *seg;
+}caso;
+
+int adicionar(caso **lista, const char *monte) {
+    caso *novo = (caso*) malloc(sizeof(caso));
+    if (novo == NULL) {
+        printf("Erro de alocação de memória.\n");
+        return 0;
+    }
+    strncpy(novo->monte, monte, MAX_CHAR - 1);
+    novo->monte[MAX_CHAR - 1] = '\0';
+    novo->seg = *lista;
+    *lista = novo;
+    return 1;
+}
+
+int contar_areia(char *atual){
+
+int diamante1 = 0, diamante = 0;
+for(int i = 0; atual[i]= "\0"; i++){
+    if(atual[i] == "<"){
+        diamante1++;
+    }
+    else if(atual[i] == ">"){
+        if (diamante1 > 0) {
+          diamante++;
+        diamante1--;
+    }
+}
+return diamante;
+}
+
+int main(){
+
+int N;
+caso *lista = NULL;
+do{
+    printf("Quantos casos há?\n");
+    scanf("%d", &N);
+    while (getchar() != '\n');
+   }while (N<0 || N>1000);
+
+for(int i = 0; i<N; i++){
+char item[MAX_CHAR];
+printf("digite o caso %d:\n", i+1);
+
+ if (fgets(item, sizeof(item), stdin) == NULL) {
+            printf("Erro na leitura do item.\n");
+            return 1;
+        }
+        item[strcspn(item, "\n")] = '\0';
+        if (!adicionar(&lista, item)) {
+            printf("Erro ao adicionar item à lista.\n");
+            return 1;
+        }
+}
+    caso *atual = lista;
+    for (int i = 0; atual != NULL; i++, atual = atual->seg) {
+printf("caso %d, resultado: %s\n", contar_areia(atual->caso);
+    }
+
+while (lista != NULL) {
+        caso *temp = lista;
+        lista = lista->seg;
+        free(temp);
+
+return 0;
+}
+}
