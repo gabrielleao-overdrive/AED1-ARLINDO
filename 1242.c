@@ -86,5 +86,5 @@ int main(){
         fgets(n,sizeof(MAX_RNA), stdin);
         insere(n,p);
     }while(strcmp(n,fim) == 0);
-printf("número de duplas:%d", conta(p));
+printf("número de duplas:%d", conta_ligacoes(p));
 }
