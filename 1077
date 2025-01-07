@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+typedef struct {
+    char data[300];
+    int top;
+} cel;
+
+void instack(cel *p){
+    p->top = -1;
+}
+
+int isempty(cel *p){
+    return p->top == -1;
+}
+
+int isfull(cel *p){
+    return p->top == 299;
+}
+
+void empilha(char valor,cel *p){
+    if(isfull(p)){
+        printf("pilha cheia\n");
+    exit(1);
+    }
+    p->data[++p->top] = valor;
+}
+
+char desempilha(cel *p){
+    if(isempty(p)){
+        printf("pilha vazia\n");
+        exit(1);
+    }
+    return p->data[p->top--];
+}
+
+char peek(cel *p){
+    if(isempty(p)){
+        printf("pilha vazia\n");
+        exit(1);
+    }
+    return p->data[p->top];
+}
+
+int precedence(char op) {
+    switch (op) {
+        case '^': return 3;
+        case '*':
+        case '/': return 2;
+        case '+':
+        case '-': return 1;
+        default: return 0;
+    }
+}
+
+int operador(char x){
+return x == '+' || x == '-' || x == '/' || x == '*' || x == '^';
+}
+
+void infixposfix(char *in, char *pos){
+    cel j;
+    instack(&j);
+    int x = 0;
+
+    for(int i = 0; in[i] != '\0'; i++){
+    char a = in[i];
+    if(isalnum(a)){
+        pos[x++] = a;
+    }
+    if(a == '(');
+    empilha(&j, a);
+    
+    if(a == ')'){
+        while(!isempty(&j) && peek(&j) != '('){
+            pos[x++] = desempilha(&j);
+        }
+        if(!isempty(&j) && peek(&j) == '('){
+            desempilha(&j);
+        }
+    }
+     else if (isOperator(a)) {
+            while (!isEmpty(&j) && precedence(peek(&j)) >= precedence(a)) {
+                pos[x++] = pop(&j);
+            }
+            push(&j, a);
+        }
+    }
+ while (!isEmpty(&j)) {
+        pos[x++] = pop(&j);
+    }
+      pos[x] = '\0';
+}
+
+int main(){
+    int N;
+    char in[300], pos[300];
+    scanf("%d", &N);
+
+    while(N--){
+        scanf("%s", in);
+        infixposfix(in, pos);
+        printf("%s\n", pos);
+    }
+    return 0;
+}
