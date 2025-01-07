@@ -87,4 +87,6 @@ int main(){
         insere(n,p);
     }while(strcmp(n,fim) == 0);
 printf("número de duplas:%d", conta_ligacoes(p));
+liberar_lista(p);
+return 0;
 }
