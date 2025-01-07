@@ -80,15 +80,15 @@ void infixposfix(char *in, char *pos){
             desempilha(&j);
         }
     }
-     else if (isOperator(a)) {
-            while (!isEmpty(&j) && precedence(peek(&j)) >= precedence(a)) {
-                pos[x++] = pop(&j);
+     else if (operador(a)) {
+            while (!isempty(&j) && precedence(peek(&j)) >= precedence(a)) {
+                pos[x++] = desempilha(&j);
             }
-            push(&j, a);
+            empilha(&j, a);
         }
     }
- while (!isEmpty(&j)) {
-        pos[x++] = pop(&j);
+ while (!isempty(&j)) {
+        pos[x++] = desempilha(&j);
     }
       pos[x] = '\0';
 }
