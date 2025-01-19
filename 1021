@@ -1,0 +1,71 @@
+#include <stdio.h>
+ 
+int main() {
+ 
+   float x;
+   do{
+   scanf("%f", &x);
+   } while(x < 0 || x > 1000000.00);
+    int cem=0, cin=0, vin=0, dez=0, cinco=0, dois=0, um=0, acin=0, avc=0, adez=0, acinco=0, aum=0;
+    if(x/100 > 0){
+        cem = x/100;
+        x -= cem*100;
+    }
+    
+    if(x/50 > 0){
+        cin = x/50;
+        x -= cin*50;
+    }
+    
+    if(x/20 > 0){
+        vin = x/20;
+        x -= vin*20;
+    }
+ 
+    if(x/10 > 0){
+        dez = x/10;
+        x -= dez*10;
+    }
+    
+    if(x/5 > 0){
+        cinco = x/5;
+        x -= cinco*5;
+    }
+ 
+    if(x/2 > 0){
+        dois = x/2;
+        x -= dois*2;
+    }
+    
+    if(x/1 > 0){
+        um = x;
+        x -= um;
+    }
+    
+    if(x/0.5 > 0){
+        acin = x/0.5;
+        x -= acin*0.5;
+    }
+    
+    if(x/0.25 > 0){
+         avc = x/0.25;
+        x -= avc*0.25;
+    }
+    
+    if(x/0.1 > 0){
+         adez = x/0.1;
+        x -= adez*0.1;
+    }
+    
+    if(x/0.05 > 0){
+         acinco = x/0.05;
+        x -= acinco*0.05;
+    }
+    
+    if(x/0.01 > 0){
+         aum = x/0.01;
+        x -= aum*0.01;
+    }
+    printf("NOTAS:\n%d nota(s) de R$ 100.00\n%d nota(s) de R$ 50.00\n%d nota(s) de R$ 20.00\n%d nota(s) de R$ 10.00\n%d nota(s) de R$ 5.00\n%d nota(s) de R$ 2.00\nMOEDAS:\n%d moeda(s) de R$ 1.00\n%d moeda(s) de R$ 0.50\n%d moeda(s) de R$ 0.25\n%d moeda(s) de R$ 0.10\n%d moeda(s) de R$ 0.05\n%d moeda(s) de R$ 0.01\n", cem, cin, vin, dez, cinco, dois, um, acin, avc, adez, acinco, aum);
+    return 0;
+}
